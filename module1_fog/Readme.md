@@ -69,5 +69,8 @@ python inference.py --image path/to/image.jpg
 }
 ```
 
-Pretrained weights available via the project Google Drive link
-(see root README).
+## Pretrained Weights
+
+| File | Link |
+|------|------|
+| fog_best.pth | [Download](https://drive.google.com/file/d/1L822eoUH2-fynyxT6bh7qR3Z9Pvr7q61/view?usp=drive_link).
