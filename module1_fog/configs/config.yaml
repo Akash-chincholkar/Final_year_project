@@ -1,0 +1,31 @@
+# module1_fog/configs/config.yaml
+
+model:
+  backbone: resnet18
+  num_classes: 4
+  dropout: 0.4
+
+training:
+  epochs: 30
+  lr: 1.0e-4
+  batch_size: 32
+  weight_decay: 1.0e-4
+  num_workers: 4
+  scheduler_patience: 3
+  scheduler_factor: 0.5
+
+paths:
+  dataset_dir: "D:\\Fog_Dataset"     # relative — user sets this
+  save_dir: "D:\\fog_module1_results"
+  weights_file: "fog_best.pth"
+
+visibility_scores:
+  clear:  1.0
+  light:  0.7
+  medium: 0.4
+  dense:  0.1
+
+koschmieder:
+  beta_light:  0.005   # MOR ~600m
+  beta_medium: 0.01    # MOR ~300m
+  beta_dense:  0.02    # MOR ~150m

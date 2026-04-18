@@ -1,0 +1,22 @@
+# Environment
+.env
+
+# Model weights
+*.pth
+*.pt
+
+# Dataset
+FogDataset/
+RDD2022*/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Outputs
+outputs/
+runs/
+*.png
+*.csv
