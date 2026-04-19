@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from torch.optim import Adam
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
-from fog_model import FogDetector
+from module1_fog.models.fog_model import FogDetector
 from fog_dataset import FogDataset, train_transform, val_transform
 from config_loader import load_config
 

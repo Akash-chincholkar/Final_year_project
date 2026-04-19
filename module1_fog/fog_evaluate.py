@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import classification_report, confusion_matrix
 from torch.utils.data import DataLoader
-from fog_model import FogDetector
+from module1_fog.models.fog_model import FogDetector
 from fog_dataset import FogDataset, val_transform, CLASS_NAMES
 from config_loader import load_config
 

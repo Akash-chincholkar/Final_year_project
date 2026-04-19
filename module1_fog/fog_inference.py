@@ -12,7 +12,7 @@ import argparse
 import torch
 from PIL import Image
 
-from fog_model import FogDetector
+from module1_fog.models.fog_model import FogDetector
 from fog_dataset import val_transform
 from config_loader import load_config
 
