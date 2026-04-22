@@ -105,10 +105,16 @@ def evaluate_one(name, model_cls):
 
 
 def plot_accuracy_vs_speed(all_results, save_dir):
-    """Scatter plot — accuracy vs inference time per architecture."""
+    """Grouped bar chart — accuracy and inference time per architecture."""
     names  = list(all_results.keys())
     accs   = [all_results[n]["accuracy"] for n in names]
     speeds = [all_results[n]["inf_ms"]   for n in names]
+    display_names = {
+        "resnet18": "ResNet-18",
+        "convnext": "ConvNeXt-Tiny",
+        "mobilenet": "MobileNetV3",
+        "efficientnet": "EfficientNet-B0",
+    }
 
     colors = {
         "resnet18":     "#1D9E75",
@@ -117,37 +123,66 @@ def plot_accuracy_vs_speed(all_results, save_dir):
         "convnext":     "#888780",
     }
 
-    fig, ax = plt.subplots(figsize=(7, 5))
+    x = np.arange(len(names))
+    width = 0.36
 
-    for n, a, s in zip(names, accs, speeds):
-        ax.scatter(s, a, s=120,
-                   color=colors.get(n, "#888780"),
-                   zorder=3)
-        ax.annotate(n, (s, a),
-                    textcoords="offset points",
-                    xytext=(8, 4),
-                    fontsize=10)
+    acc_colors = ["#1D9E75" for _ in names]
+    speed_colors = ["#F28E2B" for _ in names]
 
-    # Annotate selected model
-    resnet_spd = all_results["resnet18"]["inf_ms"]
-    resnet_acc = all_results["resnet18"]["accuracy"]
-    ax.annotate("Selected ✓",
-                xy=(resnet_spd, resnet_acc),
-                xytext=(8, -18),
-                textcoords="offset points",
-                fontsize=9,
-                color="#1D9E75")
+    fig, ax1 = plt.subplots(figsize=(9, 5))
+    ax2 = ax1.twinx()
 
-    ax.set_xlabel("Inference time (ms/image)", fontsize=11)
-    ax.set_ylabel("Test Accuracy (%)", fontsize=11)
-    ax.set_title("Accuracy vs Inference Time — Architecture Comparison",
-                 fontsize=12)
-    ax.grid(True, alpha=0.3)
+    bars_acc = ax1.bar(
+        x - width / 2,
+        accs,
+        width,
+        color=acc_colors,
+        label="Accuracy (%)",
+        edgecolor="#0B6B57",
+        linewidth=0.8,
+    )
+    bars_speed = ax2.bar(
+        x + width / 2,
+        speeds,
+        width,
+        color=speed_colors,
+        label="Inference time (ms/image)",
+        edgecolor="#A85E12",
+        linewidth=0.8,
+    )
 
-    # Dynamic y limits with padding
-    min_acc = min(accs)
-    max_acc = max(accs)
-    ax.set_ylim(min_acc - 0.5, max_acc + 0.5)
+    ax1.set_xticks(x)
+    ax1.set_xticklabels([display_names.get(name, name) for name in names], rotation=20)
+    ax1.set_ylabel("Accuracy (%)", fontsize=11)
+    ax2.set_ylabel("Inference time (ms/image)", fontsize=11)
+    ax1.set_title("Ablation Comparison — Accuracy and Inference Time", fontsize=13)
+    ax1.grid(True, axis="y", alpha=0.3)
+    ax1.set_ylim(min(accs) - 0.5, max(accs) + 0.5)
+
+    resnet_index = names.index("resnet18") if "resnet18" in names else None
+    if resnet_index is not None:
+        ax1.annotate(
+            "Selected",
+            xy=(x[resnet_index] - width / 2, accs[resnet_index]),
+            xytext=(0, 8),
+            textcoords="offset points",
+            ha="center",
+            fontsize=9,
+            color="#1D9E75",
+        )
+        ax2.annotate(
+            "Selected",
+            xy=(x[resnet_index] + width / 2, speeds[resnet_index]),
+            xytext=(0, 8),
+            textcoords="offset points",
+            ha="center",
+            fontsize=9,
+            color="#A85E12",
+        )
+
+    handles = [bars_acc[0], bars_speed[0]]
+    labels = ["Accuracy (%)", "Inference time (ms/image)"]
+    ax1.legend(handles, labels, loc="upper left")
 
     plt.tight_layout()
     os.makedirs(save_dir, exist_ok=True)

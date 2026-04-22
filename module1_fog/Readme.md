@@ -39,14 +39,14 @@ lr=1e-4, batch=32) on the same dataset split.
 
 | Model           | Accuracy | F1-macro | F1-Light | F1-Medium | Inference |
 |-----------------|----------|----------|----------|-----------|-----------|
-| MobileNetV3     | 96.38%   | 0.9638   | 0.9541   | 0.9332    | 24.8ms    |
-| EfficientNet-B0 | 97.28%   | 0.9728   | 0.9632   | 0.9502    | 49.1ms    |
-| **ResNet-18**   | **97.66%**| **0.9765**| **0.9657**| **0.9589**| **13.1ms**|
-| ConvNeXt-Tiny   | 98.07%   | 0.9807   | 0.9734   | 0.9638    | 30.8ms    |
+| ResNet-18       | 97.66%   | 0.9765   | 0.9657   | 0.9589    | 3.5ms     |
+| ConvNeXt-Tiny   | 98.07%   | 0.9807   | 0.9734   | 0.9638    | 7.4ms     |
+| MobileNetV3     | 96.38%   | 0.9638   | 0.9541   | 0.9332    | 6.0ms     |
+| EfficientNet-B0 | 97.28%   | 0.9728   | 0.9632   | 0.9502    | 9.1ms     |
 
-**ResNet-18 selected** — fastest inference (13.1ms) with competitive
-accuracy. ConvNeXt-Tiny achieves 0.41% higher accuracy but is 2.4×
-slower. F1 on Light and Medium (the hardest classes due to visual
+**ResNet-18 selected** — fastest inference (3.5ms) with competitive
+accuracy. ConvNeXt-Tiny achieves 0.41% higher accuracy but is about
+2.1× slower. F1 on Light and Medium (the hardest classes due to visual
 similarity) remains strong at 0.9657 and 0.9589.
 
 ## Setup
